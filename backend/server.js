@@ -32,7 +32,7 @@ const app = express();
 // ` CORS Middleware
 app.use(cors(process.env.CLIENT_URL));
 // @ Port Declare
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Webhooks removed
 

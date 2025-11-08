@@ -1,0 +1,85 @@
+// 1. Define your font list for both JS/TS and SCSS
+$custom-fonts: (
+        'CascadiaCode',
+        'GoogleSansCode',
+        'IBMPlexMono',
+        'Lato',
+        'MontserratAlternates',
+        'Raleway',
+        'Roboto',
+        'Rubik',
+        'Sixtyfour',
+        'SofiaSans'
+);
+
+// 2. Define @font-face rules (assuming you have font files like FontA-Regular.woff2)
+// This is necessary to make the browser *know* about your fonts.
+@each $font-name in $custom-fonts {
+        @font-face {
+                font-family: $font-name;
+                // Adjust the path and format as per your project structure and font file types
+                src: url('/assets/fonts/#{$font-name}-Regular.woff2') format('woff2'),
+                     url('/assets/fonts/#{$font-name}-Regular.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+        }
+}
+
+// 3. SCSS to style the editor content (when a font is selected)
+// Quill applies a class like `ql-font-[font-name]` to the editor content.
+@each $font-name in $custom-fonts {
+        .ql-font-#{$font-name} {
+                font-family: $font-name, sans-serif !important; // !important might be needed to override Quill's defaults
+        }
+}
+
+// 4. SCSS to style the dropdown label and items
+// This is the part that is usually long in plain CSS, but short with SCSS loops.
+// This makes the font names in the dropdown appear in their own typeface.
+@each $font-name in $custom-fonts {
+
+        .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='#{$font-name}']::before,
+        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='#{$font-name}']::before {
+                content: '#{$font-name}' !important;
+                font-family: $font-name, sans-serif !important;
+        }
+}
+
+// Optional: Set a default font for the entire editor area if needed
+
+
+
+.ql-toolbar {
+        border-bottom: 1px solid black !important;
+}
+.ql-editor {
+        min-height: 500px; // Example
+
+        // font-family: 'FontA', sans-serif; // Uncomment if you want a specific default font
+}
+
+// Fix for font picker width to prevent overlapping and ensure full font names are visible
+.ql-snow .ql-picker.ql-font {
+        min-width: 180px;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label {
+        overflow: visible;
+        white-space: nowrap;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-options {
+        min-width: 180px;
+}
+
+// Title editor specific height override
+.title-editor .ql-editor {
+        height: 4rem !important;
+        min-height: 24px !important;
+}
+// SubTitle editor specific height override
+.subTitle-editor .ql-editor {
+        height: 4rem !important;
+        min-height: 24px !important;
+}

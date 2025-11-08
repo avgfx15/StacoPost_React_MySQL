@@ -1,0 +1,39 @@
+/* | Import Tailwindcss and Daisyui Styling */
+@import 'tailwindcss';
+
+/* ` Configure tailwindcss base */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+body {
+  width: 100vw;
+  background-color: #e6e6ff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.animatedDuration {
+  animation-duration: 10000ms;
+}
+
+.ql-container {
+  border: none !important;
+}
+
+.ql-toolbar {
+  border: none !important;
+}
+
+.ql-editor {
+  border: none !important;
+}

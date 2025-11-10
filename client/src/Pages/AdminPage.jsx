@@ -205,8 +205,31 @@ const AdminPage = () => {
                         Category: {post.category?.name} • Views:{' '}
                         {post.visitorsNo} • Likes: {likeCounts?.likes || 0} •
                         Dislikes: {likeCounts?.dislikes || 0}
+                      </p>
+                      {post.isFeatured && (
+                        <span className='inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full'>
+                          Featured
+                        </span>
+                      )}
+                      {!post.isActive && (
+                        <span className='inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full ml-2'>
+                          Inactive
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className='flex gap-2'>
+                    <button
+                      onClick={() => activateMutation.mutate(post.id)}
+                      disabled={activateMutation.isPending}
+                      className={`px-4 py-2 rounded-md text-sm font-medium ${
+                        post.isActive
+                          ? 'bg-red-500 text-white hover:bg-red-600'
+                          : 'bg-blue-500 text-white hover:bg-blue-600'
+                      }`}
+                    >
+                      {post.isActive ? 'Deactivate' : 'Activate'}
+                    </button>
                     <button
                       onClick={() => featureMutation.mutate(post.id)}
                       disabled={featureMutation.isPending}
@@ -234,7 +257,7 @@ const AdminPage = () => {
                       Delete
                     </button>
                   </div>
-                </>
+                </div>
               );
             })}
           </div>

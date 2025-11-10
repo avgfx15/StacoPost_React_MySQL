@@ -44,6 +44,10 @@ const Post = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     visitorsNo: {
       type: DataTypes.INTEGER,
       defaultValue: 0,

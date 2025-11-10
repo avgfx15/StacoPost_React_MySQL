@@ -92,6 +92,34 @@ const AdminPage = () => {
     },
   });
 
+  // Activate/Deactivate post mutation
+  const activateMutation = useMutation({
+    mutationFn: async (postId) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_API_URL}/posts/activate`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ postId }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error('Failed to activate/deactivate post');
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['adminPosts'] });
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error('Error updating post: ' + error.message);
+    },
+  });
+
   // Delete post mutation
   const deleteMutation = useMutation({
     mutationFn: async (postId) => {
@@ -177,13 +205,6 @@ const AdminPage = () => {
                         Category: {post.category?.name} • Views:{' '}
                         {post.visitorsNo} • Likes: {likeCounts?.likes || 0} •
                         Dislikes: {likeCounts?.dislikes || 0}
-                      </p>
-                      {post.isFeatured && (
-                        <span className='inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full'>
-                          Featured
-                        </span>
-                      )}
-                    </div>
                   </div>
                   <div className='flex gap-2'>
                     <button
@@ -213,7 +234,7 @@ const AdminPage = () => {
                       Delete
                     </button>
                   </div>
-                </div>
+                </>
               );
             })}
           </div>

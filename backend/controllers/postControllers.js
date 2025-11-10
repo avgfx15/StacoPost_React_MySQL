@@ -57,6 +57,12 @@ export const getAllPostController = async (req, res) => {
 
   const query = {};
 
+  // Check if user is admin to show all posts, else only active posts
+  const user = req.user;
+  if (!user || user.role !== 'admin') {
+    query.isActive = true;
+  }
+
   const category = req.query.category;
   const author = req.query.author;
   const searchInput = req.query.searchInput;
@@ -165,8 +171,16 @@ export const getAllPostController = async (req, res) => {
 export const getSinglePostBySlugController = async (req, res) => {
   const slug = req.params.slug;
 
+  const query = { slug };
+
+  // Check if user is admin to show inactive posts, else only active posts
+  const user = req.user;
+  if (!user || user.role !== 'admin') {
+    query.isActive = true;
+  }
+
   const getPostBySlug = await Post.findOne({
-    where: { slug },
+    where: query,
     include: [
       {
         model: User,
@@ -300,6 +314,7 @@ export const createPostController = async (req, res) => {
     slug,
     subTitle,
     content,
+    isActive: false, // New posts are inactive by default
   };
 
   // # Save Post
@@ -380,4 +395,49 @@ export const featurePostController = async (req, res) => {
 
   // Logic to feature the post
   res.status(200).send(findPost);
+};
+
+// + Activate/Deactivate Post By Id (Admin Only)
+export const activatePostController = async (req, res) => {
+  // % Get PostId from params
+  const postId = req.body.postId;
+
+  // Get user from JWT token
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).json({ message: 'You are Unauthorized' });
+  }
+
+  // Find User from UserModel
+  const userExist = await User.findByPk(user.id);
+
+  if (!userExist) {
+    return res.status(404).json({ message: 'User Not Found' });
+  }
+
+  // $ Check if User is Admin
+  if (userExist.role !== 'admin') {
+    return res
+      .status(403)
+      .json('You are not authorized to activate/deactivate this post.');
+  }
+
+  const findPost = await Post.findByPk(postId);
+
+  if (!findPost) {
+    return res.status(404).json('Post not found.');
+  }
+
+  // % Check post isActive or not
+  const isActive = findPost.isActive;
+
+  // % Toggle isActive status
+  await findPost.update({ isActive: !isActive });
+
+  // Logic to activate/deactivate the post
+  res.status(200).json({
+    message: `Post ${!isActive ? 'activated' : 'deactivated'} successfully.`,
+    post: findPost,
+  });
 };

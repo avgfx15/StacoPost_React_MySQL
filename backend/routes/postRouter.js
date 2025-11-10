@@ -11,6 +11,7 @@ import {
   featurePostController,
   getAllPostController,
   getSinglePostBySlugController,
+  activatePostController,
 } from '../controllers/postControllers.js';
 import { authenticateToken } from '../controllers/authController.js';
 import increaseVisit from '../middleware/increaseVisit.js';
@@ -33,6 +34,9 @@ postRouter.delete('/:postId', authenticateToken, deletePostController);
 
 // + Feature the post
 postRouter.patch('/feature', authenticateToken, featurePostController);
+
+// + Activate/Deactivate the post
+postRouter.patch('/activate', authenticateToken, activatePostController);
 
 // ~ Export postRouter
 export default postRouter;

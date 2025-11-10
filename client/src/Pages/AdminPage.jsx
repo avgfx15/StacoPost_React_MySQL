@@ -29,14 +29,18 @@ const AdminPage = () => {
     }
   }, [user, navigate]);
 
-  // Fetch all posts for admin management
+  // Fetch all posts for admin management (including inactive ones)
   const {
     data: posts,
     isLoading,
     error,
   } = useQuery({
     queryKey: ['adminPosts'],
-    queryFn: () => fetchAllPostsAction(1, new URLSearchParams({ limit: 100 })), // Fetch more posts for admin
+    queryFn: () =>
+      fetchAllPostsAction(
+        1,
+        new URLSearchParams({ limit: 100, includeInactive: true })
+      ), // Fetch more posts for admin including inactive
     enabled: !!user && user.role === 'admin',
   });
 

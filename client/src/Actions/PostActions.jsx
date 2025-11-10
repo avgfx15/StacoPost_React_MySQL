@@ -6,6 +6,11 @@ const baseUrl = import.meta.env.VITE_BASE_API_URL;
 export const fetchAllPostsAction = async (pageParams, searchParams) => {
   const searchParamsObject = Object.fromEntries([...searchParams]);
 
+  // Add includeInactive parameter if specified
+  if (searchParamsObject.includeInactive) {
+    searchParamsObject.includeInactive = true;
+  }
+
   const response = await axios.get(`${baseUrl}/posts`, {
     params: { page: pageParams, ...searchParamsObject },
   });

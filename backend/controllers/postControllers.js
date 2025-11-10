@@ -59,8 +59,12 @@ export const getAllPostController = async (req, res) => {
 
   // Check if user is admin to show all posts, else only active posts
   const user = req.user;
+  const includeInactive = req.query.includeInactive === 'true';
   if (!user || user.role !== 'admin') {
     query.isActive = true;
+  } else if (includeInactive) {
+    // Admin can see inactive posts when explicitly requested
+    delete query.isActive;
   }
 
   const category = req.query.category;

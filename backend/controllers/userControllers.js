@@ -16,9 +16,12 @@ export const getAllSavedPostsController = async (req, res) => {
       return res.status(404).json({ message: 'User Not Found' });
     }
 
-    const savedPostIds = Array.isArray(userExist.savedPosts)
-      ? userExist.savedPosts
-      : [];
+    // Normalize savedPosts to array if not already
+    if (!Array.isArray(userExist.savedPosts)) {
+      userExist.savedPosts = [];
+      await userExist.save();
+    }
+    const savedPostIds = userExist.savedPosts;
 
     if (savedPostIds.length === 0) {
       return res.status(200).json({ savedPosts: [] });
@@ -305,9 +308,12 @@ export const savePostForUserController = async (req, res) => {
       return res.status(400).json({ message: 'Post ID is required' });
     }
 
-    const savedPosts = Array.isArray(userExist.savedPosts)
-      ? userExist.savedPosts
-      : [];
+    // Normalize savedPosts to array if not already
+    if (!Array.isArray(userExist.savedPosts)) {
+      userExist.savedPosts = [];
+      await userExist.save();
+    }
+    const savedPosts = userExist.savedPosts;
     const isPostSaved = savedPosts.includes(postId);
 
     // Logic to save post for the user

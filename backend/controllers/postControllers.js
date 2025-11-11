@@ -64,7 +64,7 @@ export const getAllPostController = async (req, res) => {
     query.isActive = true;
   } else if (!includeInactive) {
     // Admin sees only active posts by default unless includeInactive is true
-    query.isActive = false;
+    query.isActive = true;
   }
   // If admin and includeInactive is true, no isActive filter is applied
 
@@ -163,6 +163,9 @@ export const getAllPostController = async (req, res) => {
   const totalPosts = await Post.count({ where: query });
   const hasMore = page * limit < totalPosts;
   const totalPages = Math.ceil(totalPosts / limit);
+
+  console.log(allPost);
+
   res.status(200).json({
     allPost,
     nextCursor: hasMore ? page + 1 : null,

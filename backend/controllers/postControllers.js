@@ -1,4 +1,4 @@
-/ | Import POST MODEL
+// | Import POST MODEL
 import { Post, User, Category } from '../models/associations.js';
 import Sequelize, { Op } from 'sequelize';
 

@@ -64,7 +64,7 @@ export const getAllPostController = async (req, res) => {
     query.isActive = true;
   } else if (!includeInactive) {
     // Admin sees only active posts by default unless includeInactive is true
-    query.isActive = true;
+    query.isActive = false;
   }
   // If admin and includeInactive is true, no isActive filter is applied
 

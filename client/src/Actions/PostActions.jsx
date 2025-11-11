@@ -8,7 +8,7 @@ export const fetchAllPostsAction = async (pageParams, searchParams) => {
 
   // Add includeInactive parameter if specified
   if (searchParamsObject.includeInactive) {
-    searchParamsObject.includeInactive = true;
+    searchParamsObject.includeInactive = 'true';
   }
 
   const response = await axios.get(`${baseUrl}/posts`, {

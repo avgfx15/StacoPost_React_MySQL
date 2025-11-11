@@ -64,10 +64,10 @@ const WritePage = () => {
     onError: (error) => {
       toast.error('Error creating post: ' + error.message);
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       toast.success('Post Created Successfully');
 
-      navigate(`/posts/${res.slug}`);
+      navigate('/');
     },
   });
 

@@ -8,6 +8,7 @@ import cors from 'cors';
 // | Import Passport and Session
 import passport from 'passport';
 import session from 'express-session';
+import SequelizeStore from 'connect-session-sequelize';
 
 // | Import Router
 import authRouter from './routes/authRouter.js';
@@ -22,6 +23,7 @@ import whatsappWebhookRouter from './routes/whatsappWebhookRouter.js';
 
 // | Import DB Connect
 import dbConnect from './DB/dbConnect.js';
+import sequelize from './DB/sequelize.js';
 
 // | Import uploadAuthController
 import { uploadAuthController } from './controllers/postControllers.js';
@@ -36,12 +38,20 @@ const port = process.env.PORT || 3000;
 
 // Webhooks removed
 
-// ` Session middleware for Passport
+// ` Session middleware for Passport with Sequelize Store
+const SequelizeSessionStore = SequelizeStore(session.Store);
+const sessionStore = new SequelizeSessionStore({
+  db: sequelize,
+  tableName: 'sessions',
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'your-session-secret',
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
+    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
   })
 );
 

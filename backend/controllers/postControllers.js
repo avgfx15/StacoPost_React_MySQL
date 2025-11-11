@@ -1,4 +1,4 @@
-// | Import POST MODEL
+/ | Import POST MODEL
 import { Post, User, Category } from '../models/associations.js';
 import Sequelize, { Op } from 'sequelize';
 
@@ -62,10 +62,11 @@ export const getAllPostController = async (req, res) => {
   const includeInactive = req.query.includeInactive === 'true';
   if (!user || user.role !== 'admin') {
     query.isActive = true;
-  } else if (includeInactive) {
-    // Admin can see inactive posts when explicitly requested
-    delete query.isActive;
+  } else if (!includeInactive) {
+    // Admin sees only active posts by default unless includeInactive is true
+    query.isActive = true;
   }
+  // If admin and includeInactive is true, no isActive filter is applied
 
   const category = req.query.category;
   const author = req.query.author;

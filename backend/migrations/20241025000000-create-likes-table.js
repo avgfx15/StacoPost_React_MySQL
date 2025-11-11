@@ -55,6 +55,7 @@ export default {
     // Add unique indexes
     await queryInterface.addIndex('likes', ['likeUser_id', 'likePost_id'], {
       unique: true,
+      name: 'unique_like_user_post',
       where: {
         likePost_id: {
           [Sequelize.Op.ne]: null,
@@ -64,6 +65,7 @@ export default {
 
     await queryInterface.addIndex('likes', ['likeUser_id', 'likeComment_id'], {
       unique: true,
+      name: 'unique_like_user_comment',
       where: {
         likeComment_id: {
           [Sequelize.Op.ne]: null,

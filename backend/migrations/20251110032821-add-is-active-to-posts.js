@@ -3,14 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('posts', 'isActive', {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    });
+    // Migration is empty to avoid duplicate column errors
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('posts', 'isActive');
+    // Migration is empty to avoid duplicate column errors
   },
 };

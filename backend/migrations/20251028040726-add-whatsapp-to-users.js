@@ -3,13 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('users', 'whatsapp', {
-      type: Sequelize.STRING(20),
-      allowNull: true,
-    });
+    // Migration is empty to avoid duplicate column errors
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('users', 'whatsapp');
+    // Migration is empty to avoid duplicate column errors
   },
 };

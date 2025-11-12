@@ -35,6 +35,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://stacopost-react-mysql.onrender.com',
+  'https://stacodev.com',
   process.env.CLIENT_URL,
 ];
 
@@ -84,6 +85,10 @@ app.use(passport.session());
 // ` Configure Middleware For JSON format
 app.use(express.json({ limit: '10mb' }));
 
+// ` Configure Middleware For URL Encoded format
+
+
+
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ` Upload Auth Route (before clerkMiddleware to allow unauthenticated access)
@@ -104,20 +109,6 @@ app.use('/whatsapp', whatsappWebhookRouter);
 
 app.use((error, req, res, next) => {
   if (!res.headersSent) {
-    const origin = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
-      res.header('Access-Control-Allow-Origin', origin);
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.header(
-        'Access-Control-Allow-Methods',
-        'GET,HEAD,PUT,PATCH,POST,DELETE'
-      );
-      res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-      );
-    }
-
     res.status(error.status || 500);
 
     res.json({

@@ -164,8 +164,6 @@ export const getAllPostController = async (req, res) => {
   const hasMore = page * limit < totalPosts;
   const totalPages = Math.ceil(totalPosts / limit);
 
-  console.log(allPost);
-
   res.status(200).json({
     allPost,
     nextCursor: hasMore ? page + 1 : null,

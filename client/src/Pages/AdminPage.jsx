@@ -166,7 +166,6 @@ const AdminPage = () => {
     );
   }
 
-  console.log(posts);
   return (
     <div className='max-w-6xl mx-auto py-8'>
       <h1 className='text-3xl font-bold mb-8'>Admin Dashboard</h1>

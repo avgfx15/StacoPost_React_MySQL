@@ -14,6 +14,7 @@ export const fetchAllPostsAction = async (pageParams, searchParams) => {
   const response = await axios.get(`${baseUrl}/posts`, {
     params: { page: pageParams, ...searchParamsObject },
   });
+
   return response.data;
 };
 

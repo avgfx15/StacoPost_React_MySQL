@@ -13,7 +13,10 @@ import {
   getSinglePostBySlugController,
   activatePostController,
 } from '../controllers/postControllers.js';
-import { authenticateToken } from '../controllers/authController.js';
+import {
+  authenticateToken,
+  optionalAuthenticateToken,
+} from '../controllers/authController.js';
 import increaseVisit from '../middleware/increaseVisit.js';
 
 // ` Configure Routes
@@ -21,7 +24,7 @@ import increaseVisit from '../middleware/increaseVisit.js';
 postRouter.get('/test', (req, res) => res.status(200).send('postRouter Test!'));
 
 // / Get All Post Route
-postRouter.get('/', getAllPostController);
+postRouter.get('/', optionalAuthenticateToken, getAllPostController);
 
 // / Get Single Post By Slug
 postRouter.get('/:slug', increaseVisit, getSinglePostBySlugController);

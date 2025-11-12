@@ -163,6 +163,27 @@ export const authenticateToken = (req, res, next) => {
   );
 };
 
+// Middleware to optionally verify JWT token
+export const optionalAuthenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.split(' ')[1]; // Bearer TOKEN
+
+  if (!token) {
+    return next(); // No token, just continue
+  }
+
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET || 'your-secret-key',
+    (err, user) => {
+      if (!err) {
+        req.user = user; // Attach user info to request
+      }
+      next(); // Continue even if token is invalid
+    }
+  );
+};
+
 // Helper function to generate JWT token
 const generateToken = (user) => {
   return jwt.sign(

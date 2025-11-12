@@ -56,6 +56,16 @@ const corsOptions = {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization',
 };
 app.use(cors(corsOptions));
+
+// ` CSP Middleware
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'report-sample' 'nonce-14jLzA13hOeXrd7y551aPQ' 'unsafe-inline' 'blob:'"
+  );
+  next();
+});
+
 // @ Port Declare
 const port = process.env.PORT || 3000;
 

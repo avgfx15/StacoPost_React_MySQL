@@ -32,7 +32,28 @@ import { uploadAuthController } from './controllers/postControllers.js';
 const app = express();
 
 // ` CORS Middleware
-app.use(cors(process.env.CLIENT_URL));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://stacopost-react-mysql.onrender.com',
+  process.env.CLIENT_URL,
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg =
+        'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+};
+app.use(cors(corsOptions));
 // @ Port Declare
 const port = process.env.PORT || 3000;
 
@@ -61,18 +82,6 @@ app.use(passport.session());
 
 // ` Configure Middleware For JSON format
 app.use(express.json({ limit: '10mb' }));
-
-// ` Configure Middleware For URL Encoded format
-
-// allow cross-origin requests
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
 
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 

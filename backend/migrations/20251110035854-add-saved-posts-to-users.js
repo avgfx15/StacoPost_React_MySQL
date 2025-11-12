@@ -3,10 +3,13 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Migration is empty to avoid duplicate column errors
+    await queryInterface.addColumn('users', 'savedPosts', {
+      type: Sequelize.JSON,
+      defaultValue: [],
+    });
   },
 
   async down(queryInterface, Sequelize) {
-    // Migration is empty to avoid duplicate column errors
+    await queryInterface.removeColumn('users', 'savedPosts');
   },
 };

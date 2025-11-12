@@ -17,11 +17,21 @@ export const getAllSavedPostsController = async (req, res) => {
     }
 
     // Normalize savedPosts to array if not already
-    if (!Array.isArray(userExist.savedPosts)) {
-      userExist.savedPosts = [];
-      await userExist.save();
+    let savedPostsData = userExist.savedPosts;
+    if (typeof savedPostsData === 'string') {
+      try {
+        savedPostsData = JSON.parse(savedPostsData);
+      } catch (parseError) {
+        console.error('Error parsing savedPosts JSON:', parseError);
+        savedPostsData = [];
+      }
     }
-    const savedPostIds = userExist.savedPosts;
+
+    if (!Array.isArray(savedPostsData)) {
+      savedPostsData = [];
+      await userExist.update({ savedPosts: savedPostsData }); // Update the database if it was not an array
+    }
+    const savedPostIds = savedPostsData;
 
     if (savedPostIds.length === 0) {
       return res.status(200).json({ savedPosts: [] });
@@ -309,9 +319,18 @@ export const savePostForUserController = async (req, res) => {
     }
 
     // Normalize savedPosts to an array
-    let currentSavedPosts = [];
-    if (Array.isArray(userExist.savedPosts)) {
-      currentSavedPosts = userExist.savedPosts;
+    let currentSavedPosts = userExist.savedPosts;
+    if (typeof currentSavedPosts === 'string') {
+      try {
+        currentSavedPosts = JSON.parse(currentSavedPosts);
+      } catch (parseError) {
+        console.error('Error parsing savedPosts JSON:', parseError);
+        currentSavedPosts = [];
+      }
+    }
+
+    if (!Array.isArray(currentSavedPosts)) {
+      currentSavedPosts = [];
     }
 
     const savedPostIds = currentSavedPosts.map((id) => parseInt(id, 10));

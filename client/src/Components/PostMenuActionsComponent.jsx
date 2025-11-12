@@ -100,7 +100,9 @@ const PostMenuActionsComponent = ({ post }) => {
 
   // $ Handle Delete Post
   const handleDeletePost = () => {
-    deletePostByAuthorMutation.mutate();
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      deletePostByAuthorMutation.mutate();
+    }
   };
 
   // $ Handle Featured Post
@@ -159,7 +161,7 @@ const PostMenuActionsComponent = ({ post }) => {
               <RiDeleteBin6Fill className='text-3xl text-red-600' />
               <span>Delete this post</span>
               {deletePostByAuthorMutation.isPending && (
-                <span className='pl-3 text-red-700'>Deleting...</span>
+                <span className='loading loading-spinner loading-lg'></span>
               )}
             </div>
           )}

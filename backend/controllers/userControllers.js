@@ -313,17 +313,19 @@ export const savePostForUserController = async (req, res) => {
       userExist.savedPosts = [];
       await userExist.save();
     }
-    const savedPosts = userExist.savedPosts;
-    const isPostSaved = savedPosts.includes(postId);
+    const savedPosts = userExist.savedPosts.map((id) => parseInt(id, 10));
+    const isPostSaved = savedPosts.includes(parseInt(postId, 10));
 
     // Logic to save post for the user
     if (isPostSaved) {
-      const updatedSavedPosts = savedPosts.filter((id) => id !== postId);
+      const updatedSavedPosts = savedPosts.filter(
+        (id) => id !== parseInt(postId, 10)
+      );
       await userExist.update({ savedPosts: updatedSavedPosts });
 
       return res.status(200).json({ message: 'Post is Unsaved Now!' });
     } else {
-      const updatedSavedPosts = [...savedPosts, postId];
+      const updatedSavedPosts = [...savedPosts, parseInt(postId, 10)];
       await userExist.update({ savedPosts: updatedSavedPosts });
 
       return res.status(200).json({ message: 'Post is Saved Now!' });

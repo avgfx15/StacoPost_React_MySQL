@@ -8,18 +8,23 @@ import { format } from 'timeago.js';
 
 // & Saved Posts Page Component
 const SavedPostsPage = () => {
-  const { user, getToken } = useAuth();
+  const { user, getToken, loading } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       navigate('/login');
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
   // / Fetch saved posts
-  const { data, isLoading, isError, error } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ['savedPosts'],
     queryFn: async () => {
       const token = await getToken();
@@ -30,7 +35,7 @@ const SavedPostsPage = () => {
 
   const savedPosts = data?.savedPosts || [];
 
-  if (isLoading) return <div>Loading saved posts...</div>;
+  if (loading || isLoading) return <div>Loading saved posts...</div>;
 
   if (isError) return <div>Error: {error.message}</div>;
 

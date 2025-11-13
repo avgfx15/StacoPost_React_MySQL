@@ -4,15 +4,6 @@ import {
   loginController,
   logoutController,
   authenticateToken,
-  googleAuth,
-  googleAuthCallback,
-  googleAuthSuccess,
-  facebookAuth,
-  facebookAuthCallback,
-  facebookAuthSuccess,
-  linkedinAuth,
-  linkedinAuthCallback,
-  linkedinAuthSuccess,
 } from '../controllers/authController.js';
 import { User } from '../models/associations.js';
 
@@ -72,53 +63,5 @@ authRouter.get('/profile', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
-
-// Social Auth Routes (only if credentials are configured)
-// Google
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  authRouter.get('/google', googleAuth);
-  authRouter.get('/google/callback', googleAuthCallback, googleAuthSuccess);
-} else {
-  authRouter.get('/google', (req, res) =>
-    res.status(501).json({ message: 'Google OAuth not configured' })
-  );
-  authRouter.get('/google/callback', (req, res) =>
-    res.status(501).json({ message: 'Google OAuth not configured' })
-  );
-}
-
-// Facebook
-if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
-  authRouter.get('/facebook', facebookAuth);
-  authRouter.get(
-    '/facebook/callback',
-    facebookAuthCallback,
-    facebookAuthSuccess
-  );
-} else {
-  authRouter.get('/facebook', (req, res) =>
-    res.status(501).json({ message: 'Facebook OAuth not configured' })
-  );
-  authRouter.get('/facebook/callback', (req, res) =>
-    res.status(501).json({ message: 'Facebook OAuth not configured' })
-  );
-}
-
-// LinkedIn
-if (process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET) {
-  authRouter.get('/linkedin', linkedinAuth);
-  authRouter.get(
-    '/linkedin/callback',
-    linkedinAuthCallback,
-    linkedinAuthSuccess
-  );
-} else {
-  authRouter.get('/linkedin', (req, res) =>
-    res.status(501).json({ message: 'LinkedIn OAuth not configured' })
-  );
-  authRouter.get('/linkedin/callback', (req, res) =>
-    res.status(501).json({ message: 'LinkedIn OAuth not configured' })
-  );
-}
 
 export default authRouter;

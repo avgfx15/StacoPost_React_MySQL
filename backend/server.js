@@ -5,10 +5,7 @@ import express from 'express';
 // | Import CORS
 import cors from 'cors';
 
-// | Import Passport and Session
-import passport from 'passport';
-import session from 'express-session';
-import SequelizeStore from 'connect-session-sequelize';
+// | Import Passport and Session removed
 
 // | Import Router
 import authRouter from './routes/authRouter.js';
@@ -57,40 +54,15 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
-
 // @ Port Declare
 const port = process.env.PORT || 3000;
 
 // Webhooks removed
 
-// ` Session middleware for Passport with Sequelize Store
-const SequelizeSessionStore = SequelizeStore(session.Store);
-const sessionStore = new SequelizeSessionStore({
-  db: sequelize,
-  tableName: 'sessions',
-});
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'your-session-secret',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
-  })
-);
-
-// ` Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // ` Configure Middleware For JSON format
 app.use(express.json({ limit: '10mb' }));
 
 // ` Configure Middleware For URL Encoded format
-
-
 
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 

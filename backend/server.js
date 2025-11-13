@@ -59,10 +59,12 @@ app.use(cors(corsOptions));
 
 // ` CSP Middleware
 app.use((req, res, next) => {
+  const nonce = crypto.randomBytes(16).toString('base66');
   res.setHeader(
     'Content-Security-Policy',
-    "script-src 'report-sample' 'nonce-14jLzA13hOeXrd7y551aPQ' 'unsafe-inline' 'blob:'"
+    `script-src 'report-sample' 'nonce-${nonce}' 'unsafe-inline' 'blob:'`
   );
+  res.locals.nonce = nonce; // Make nonce available to other middleware/routes if needed
   next();
 });
 

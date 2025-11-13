@@ -116,14 +116,6 @@ export const AuthProvider = ({ children }) => {
 
   const getToken = () => token;
 
-  // Social login handler
-  const socialLogin = (token) => {
-    setToken(token);
-    localStorage.setItem('token', token);
-    // Refresh user data after social login
-    refreshUser();
-  };
-
   const value = {
     user,
     token,
@@ -134,7 +126,6 @@ export const AuthProvider = ({ children }) => {
     refreshUser,
     setUser,
     getToken,
-    socialLogin,
     isAuthenticated: !!user,
   };
 

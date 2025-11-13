@@ -37,3 +37,79 @@ body {
 .ql-editor {
   border: none !important;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar h1 {
+    font-size: 1.25rem;
+  }
+
+  .login-form,
+  .register-form {
+    padding: 1rem;
+    margin: 1rem;
+    max-width: 100%;
+  }
+
+  .login-form h1,
+  .register-form h1 {
+    font-size: 1.5rem;
+  }
+
+  .post-card {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  .navbar {
+    height: 3rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .navbar h1 {
+    font-size: 1rem;
+  }
+
+  .login-form,
+  .register-form {
+    padding: 0.75rem;
+    margin: 0.5rem;
+  }
+
+  .login-form h1,
+  .register-form h1 {
+    font-size: 1.25rem;
+  }
+
+  .post-card {
+    margin: 0.25rem;
+    padding: 0.75rem;
+  }
+
+  .button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

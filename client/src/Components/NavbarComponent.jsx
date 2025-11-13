@@ -71,8 +71,8 @@ const NavbarComponent = () => {
 
         {/* MOBILE MENU LIST */}
         <div
-          className={`w-full h-screen flex justify-center items-center flex-col bg-[#e6e6ff] absolute top-16 text-lg font-medium gap-8 teansition-all duration-500 ease-in-out z-10 ${
-            openMobileMenu ? '-right-0' : '-right-[100%]'
+          className={`w-full h-screen flex justify-center items-center flex-col bg-[#e6e6ff] absolute top-16 left-0 text-lg font-medium gap-8 transition-all duration-300 ease-in-out z-10 ${
+            openMobileMenu ? 'block' : 'hidden'
           }`}
         >
           <NavLink to='/' onClick={closeMenu}>

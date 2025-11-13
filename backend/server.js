@@ -1,7 +1,6 @@
 // | import express
 
 import express from 'express';
-import crypto from 'crypto';
 
 // | Import CORS
 import cors from 'cors';
@@ -58,16 +57,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// ` CSP Middleware
-app.use((req, res, next) => {
-  const nonce = crypto.randomBytes(16).toString('base66');
-  res.setHeader(
-    'Content-Security-Policy',
-    `script-src 'report-sample' 'nonce-${nonce}' 'unsafe-inline' 'blob:'`
-  );
-  res.locals.nonce = nonce; // Make nonce available to other middleware/routes if needed
-  next();
-});
+
 
 // @ Port Declare
 const port = process.env.PORT || 3000;
